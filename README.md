@@ -1,0 +1,1 @@
+# sample_springboot_recipe_application
