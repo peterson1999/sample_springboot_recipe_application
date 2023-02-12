@@ -1,6 +1,7 @@
 package com.recipe.recipe_project.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -15,18 +16,19 @@ public class Recipe {
     private Integer servings;
     private Integer source;
     private Integer url;
-    private Integer directions;
+    @Lob
+    private String directions;
     @Lob
     private Byte [] image;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private Set<Ingredient> ingredients;
+    private Set<Ingredient> ingredients=new HashSet<>();
     @OneToOne(cascade= CascadeType.ALL)
     private Notes notes;
     @Enumerated(value=EnumType.STRING)
     private Difficulty difficulty;
     @ManyToMany
     @JoinTable(name="recipe_category",joinColumns = @JoinColumn(name="recipe_id"),inverseJoinColumns = @JoinColumn(name="category_id"))
-    private Set<Category> categories;
+    private Set<Category> categories=new HashSet<>();
 
     public Long getId() {
         return id;
@@ -84,11 +86,11 @@ public class Recipe {
         this.url = url;
     }
 
-    public Integer getDirections() {
+    public String getDirections() {
         return directions;
     }
 
-    public void setDirections(Integer directions) {
+    public void setDirections(String directions) {
         this.directions = directions;
     }
 
@@ -106,13 +108,20 @@ public class Recipe {
 
     public void setNotes(Notes notes) {
         this.notes = notes;
+        notes.setRecipe(this);
     }
 
-    public Set<Ingredient> getIngredient() {
+    public Recipe addIngredient(Ingredient ingredient){
+        ingredient.setRecipe(this);
+        this.ingredients.add(ingredient);
+        return this;
+    }
+
+    public Set<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredient(Set<Ingredient> ingredients) {
+    public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
