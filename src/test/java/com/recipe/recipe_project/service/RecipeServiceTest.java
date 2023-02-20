@@ -9,6 +9,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.stubbing.Answer;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,6 +24,20 @@ class RecipeServiceTest {
     void setUp() {
         MockitoAnnotations.initMocks(this);
         recipeService=new RecipeService(recipeRepository);
+    }
+
+    @Test
+    void getRecipeById() {
+        Recipe recipe=new Recipe();
+        recipe.setId(1l);
+        Optional<Recipe> recipeOptional = Optional.of(recipe);
+
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+        Recipe recipeReturned = recipeService.findById(1l);
+        assertNotNull(recipeReturned,"Returned Null");
+        verify(recipeRepository,times(1)).findById(anyLong());
+        verify(recipeRepository,never()).findAll();
     }
 
     @Test

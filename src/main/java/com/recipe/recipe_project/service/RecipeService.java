@@ -5,6 +5,7 @@ import com.recipe.recipe_project.repository.RecipeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RecipeService {
@@ -16,5 +17,13 @@ public class RecipeService {
 
     public Iterable<Recipe> getRecipeList(){
         return recipeRepository.findAll();
+    }
+
+    public Recipe findById(Long id){
+        Optional<Recipe> recipe = recipeRepository.findById(id);
+        if(!recipe.isPresent()){
+            throw new RuntimeException("Null recipe");
+        }
+        return recipe.get();
     }
 }
