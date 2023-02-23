@@ -2,6 +2,7 @@ package com.recipe.recipe_project.bootstrap;
 
 import com.recipe.recipe_project.domain.*;
 import com.recipe.recipe_project.repository.CategoryRepository;
+import com.recipe.recipe_project.repository.IngredientRepository;
 import com.recipe.recipe_project.repository.RecipeRepository;
 import com.recipe.recipe_project.repository.UnitOfMeasureRepository;
 import org.springframework.context.ApplicationListener;
@@ -20,10 +21,12 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     private final RecipeRepository recipeRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
 
-    public RecipeBootstrap(CategoryRepository categoryRepository, RecipeRepository recipeRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
+    private final IngredientRepository ingredientRepository;
+    public RecipeBootstrap(CategoryRepository categoryRepository, RecipeRepository recipeRepository, UnitOfMeasureRepository unitOfMeasureRepository, IngredientRepository ingredientRepository) {
         this.categoryRepository = categoryRepository;
         this.recipeRepository = recipeRepository;
         this.unitOfMeasureRepository = unitOfMeasureRepository;
+        this.ingredientRepository = ingredientRepository;
     }
 
     @Override

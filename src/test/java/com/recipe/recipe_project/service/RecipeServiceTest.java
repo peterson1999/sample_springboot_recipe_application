@@ -1,5 +1,7 @@
 package com.recipe.recipe_project.service;
 
+import com.recipe.recipe_project.converter.RecipeCommandToRecipe;
+import com.recipe.recipe_project.converter.RecipeToRecipeCommand;
 import com.recipe.recipe_project.domain.Recipe;
 import com.recipe.recipe_project.repository.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,11 +21,15 @@ class RecipeServiceTest {
     RecipeService recipeService;
     @Mock
     RecipeRepository recipeRepository;
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        recipeService=new RecipeService(recipeRepository);
+        recipeService=new RecipeService(recipeRepository,recipeCommandToRecipe,recipeToRecipeCommand);
     }
 
     @Test
@@ -51,5 +57,13 @@ class RecipeServiceTest {
         Set<Recipe> recipeSet= (Set<Recipe>) recipeRepository.findAll();
         assertEquals(1,recipeSet.size());
         verify(recipeRepository,times(1)).findAll();
+    }
+
+    @Test
+    void deleteRecipe() {
+        Long id = 1l;
+        recipeService.deleteById(id);
+
+        verify(recipeRepository,times(1)).deleteById(anyLong());
     }
 }

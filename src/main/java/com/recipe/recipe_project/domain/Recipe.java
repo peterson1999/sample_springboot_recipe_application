@@ -14,8 +14,8 @@ public class Recipe {
     private Integer prepTime;
     private Integer cookTime;
     private Integer servings;
-    private Integer source;
-    private Integer url;
+    private String source;
+    private String url;
     @Lob
     private String directions;
     @Lob
@@ -70,19 +70,19 @@ public class Recipe {
         this.servings = servings;
     }
 
-    public Integer getSource() {
+    public String getSource() {
         return source;
     }
 
-    public void setSource(Integer source) {
+    public void setSource(String source) {
         this.source = source;
     }
 
-    public Integer getUrl() {
+    public String getUrl() {
         return url;
     }
 
-    public void setUrl(Integer url) {
+    public void setUrl(String url) {
         this.url = url;
     }
 
@@ -108,7 +108,9 @@ public class Recipe {
 
     public void setNotes(Notes notes) {
         this.notes = notes;
-        notes.setRecipe(this);
+        if(notes!=null) {
+            notes.setRecipe(this);
+        }
     }
 
     public Recipe addIngredient(Ingredient ingredient){
